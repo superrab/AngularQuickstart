@@ -18,7 +18,7 @@ const HEROES: Hero[] = [
 
 @Component({
   selector: 'my-app',
-  templateUrl: './AppComponent.html',
+  templateUrl: './app.component.html',
   providers: [],
   styles: [`
   .selected {
