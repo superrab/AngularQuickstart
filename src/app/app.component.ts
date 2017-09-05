@@ -1,25 +1,12 @@
-import { Component } from '@angular/core';
-import Hero from './Hero';
+import { Component, OnInit } from '@angular/core';
 
-//These will come from a service later
-const HEROES: Hero[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' },
-  new Hero(21, "RLH")
-];
+import Hero from './Hero';
+import { HeroService } from './hero.service';
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  providers: [],
+  providers: [HeroService],
   styles: [`
   .selected {
     background-color: #CFD8DC !important;
@@ -70,11 +57,23 @@ const HEROES: Hero[] = [
   }
 `]
 })
-export class AppComponent  { 
+export class AppComponent implements OnInit { 
   public title : string = `Tour of Heroes`; 
   //public hero : Hero = new Hero(1, `Windstorm`);
   public selectedHero : Hero = null;
-  public heroes : Hero[] = HEROES;
+  public heroes : Hero[] = null;
+
+  constructor(private heroService: HeroService) { // defines a heroService property in the class
+    // this.getHeroes(); // don't do data call here, use ngOnInit instead
+  }
+
+  ngOnInit(): void {
+    this.getHeroes(); // right now this is synchronous / blocking, use a Promise for async
+  }
+
+  getHeroes(): void {
+    this.heroes = this.heroService.getHeroes();
+  }
 
   onSelect(h : Hero) : void {
     this.selectedHero = h;
