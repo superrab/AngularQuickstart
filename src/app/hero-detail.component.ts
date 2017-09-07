@@ -35,4 +35,9 @@ export class HeroDetailComponent implements OnInit {
 
         // console.log("Subscribed :id")
     }
+
+    public save(): void {
+        this.heroService.update(this.hero)
+            .then(() => this.goBack());
+    }
 }
