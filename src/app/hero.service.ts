@@ -44,6 +44,15 @@ export class HeroService {
         return ret;
     }
 
+    public getHeroesAsObservable(): Observable<Hero[]> {
+        // return this.http.get(this.heroesUrl)
+        //     .map(val => val.json().data as Hero[])
+
+        // This version will stop handling one emission if another comes out during it
+        return this.http.get(this.heroesUrl)
+            .switchMap(resp => Observable.of<Hero[]>(resp.json().data as Hero[]));
+    }
+
     public getHeroesSlowly(): Promise<Hero[]> {
         return new Promise(resolve => {
             // Simulate 2 second delay
